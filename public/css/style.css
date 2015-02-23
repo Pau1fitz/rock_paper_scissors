@@ -9,6 +9,23 @@ h1{
   font-family: 'Press Start 2P', cursive;
 }
 
+footer{
+  margin-top: 100px;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+}
+
+a{
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  text-decoration: none;
+}
+
+a:hover{
+  color:silver;
+  text-decoration: none;
+}
+
 #submit {
   margin-top: 40px;
   background-color: silver;
@@ -23,9 +40,28 @@ h1{
   border:none;
 }
 
-
-
 #submit:hover {
+  border: none;
+  background:white;
+  box-shadow: 0px 0px 1px #777;
+}
+
+#players {
+  margin-top: 40px;
+  background-color: silver;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  border-radius:8px;
+  color: black;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  border:none;
+  display: inline-block;
+}
+
+#players:hover {
   border: none;
   background:white;
   box-shadow: 0px 0px 1px #777;

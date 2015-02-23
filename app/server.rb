@@ -52,19 +52,18 @@ class RPS < Sinatra::Base
 
 
   get '/end_player_2_game' do
-    # @player_weapon = game.choose(session[:player], params[:weapon])
     @name1 = game.players[0].name
     @name2 = game.players[1].name
     @player_choice1 = game.player1_weapon
     @player_choice2 = game.player2_weapon
     p params
     @winner = game.winner
+    game.players.clear
     session.clear
     erb :end_player_2_game
   end
 
   get '/wait' do
-    # @player_weapon = game.choose(session[:player], params[:weapon])
     if game.players.length == 2
       redirect '/end_player_2_game'
     end

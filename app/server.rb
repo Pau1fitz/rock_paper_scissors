@@ -20,17 +20,6 @@ class RPS < Sinatra::Base
     erb :enter_name
   end
 
-  get '/player_2_game' do
-    erb :player_2_game
-  end
-
-  post '/player_2_game' do
-    @player = Player.new(params[:name])
-    game.add_player!(@player)
-    session[:player] = @player.object_id
-    erb :player_2_game
-  end
-
   post '/player_1_game' do
     @name = params[:name]
     @player = Player.new(params[:name])
@@ -44,24 +33,41 @@ class RPS < Sinatra::Base
     erb :player_1_game
   end
 
-  get '/end_player_2_game' do
+  get '/player_2_game' do
+    erb :player_2_game
+  end
+
+  post '/player_2_game' do
+    @player = Player.new(params[:name])
+    game.add_player!(@player)
+    session[:player] = @player.object_id
     @player_weapon = game.choose(session[:player], params[:weapon])
-    while game.player1_weapon == nil || game.player2_weapon == nil
+     if game.players.length == 2
+      redirect '/end_player_2_game'
+    else
       redirect '/wait'
     end
+    erb :player_2_game
+  end
 
+
+  get '/end_player_2_game' do
+    # @player_weapon = game.choose(session[:player], params[:weapon])
+    @name1 = game.players[0].name
+    @name2 = game.players[1].name
+    @player_choice1 = game.player1_weapon
+    @player_choice2 = game.player2_weapon
+    p params
+    @winner = game.winner
+    session.clear
     erb :end_player_2_game
   end
 
   get '/wait' do
-    until game.player1_weapon != nil && game.player2_weapon != nil
+    # @player_weapon = game.choose(session[:player], params[:weapon])
+    if game.players.length == 2
+      redirect '/end_player_2_game'
     end
-    @name1 = game.players[0].name
-    @name2 = game.players[1].name
-    @choice1 = game.player1_weapon
-    @choice2 = game.player2_weapon
-    @winner = game.winner
-    session.clear
     erb :wait
   end
 

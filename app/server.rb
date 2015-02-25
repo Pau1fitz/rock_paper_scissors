@@ -30,6 +30,7 @@ class RPS < Sinatra::Base
     @player_choice = game.choose(game.players[0].object_id, params[:weapon])
     @player2_choice = game.choose(game.players[1].object_id, ["Rock", "Paper", "Scissors"].sample)
     @winner = game.winner
+    p game
     erb :player_1_game
   end
 
@@ -47,6 +48,7 @@ class RPS < Sinatra::Base
     else
       redirect '/wait'
     end
+
     erb :player_2_game
   end
 
@@ -58,16 +60,26 @@ class RPS < Sinatra::Base
     @player_choice2 = game.player2_weapon
     p params
     @winner = game.winner
-    game.players.clear
+    p game
     session.clear
     erb :end_player_2_game
   end
 
   get '/wait' do
     if game.players.length == 2
+      # game.players.clear
+      # p game.players
       redirect '/end_player_2_game'
+      p game
     end
     erb :wait
+  end
+
+  get '/fresh' do
+  if game.players.length == 2
+    game.players.clear
+  end
+    erb :index
   end
 
   # start the server if ruby file executed directly

@@ -2,28 +2,45 @@ require './lib/game'
 
 describe Game do
 
+let(:game) { Game.new }
+let(:paul) {double :player, name: "Paul"}
+let(:computer) {double :player, name: "Computer"}
+
   it 'enables two players to join the game' do
-    paul = double(:player)
-    computer = double(:computer)
-    game = Game.new(paul, computer)
+    game.add_player!(paul)
+    game.add_player!(computer)
     expect(game.players.count).to eq 2
   end
 
-  it 'knows if there is a winner' do
-    paul = double(:player, name: "Paul")
-    computer = double(:computer)
-    game = Game.new(paul, computer)
-    allow(paul).to receive(:weapon).and_return "Paper"
-    allow(computer).to receive(:weapon).and_return "Rock"
+  it 'knows that Paper beats Rock' do
+    game.add_player!(paul)
+    game.add_player!(computer)
+    game.choose(paul.object_id, "Rock")
+    game.choose(computer.object_id, "Paper")
+    expect(game.winner).to eq "Computer wins"
+  end
+
+  it 'knows that Rock beats Scissors' do
+    game.add_player!(paul)
+    game.add_player!(computer)
+    game.choose(paul.object_id, "Rock")
+    game.choose(computer.object_id, "Scissors")
+    expect(game.winner).to eq "Paul wins"
+  end
+
+  it 'knows that Scissors beats Paper' do
+    game.add_player!(paul)
+    game.add_player!(computer)
+    game.choose(paul.object_id, "Scissors")
+    game.choose(computer.object_id, "Paper")
     expect(game.winner).to eq "Paul wins"
   end
 
   it 'knows when its a draw' do
-    paul = double(:player, name: "Paul")
-    computer = double(:computer)
-    game = Game.new(paul, computer)
-    allow(paul).to receive(:weapon).and_return "Rock"
-    allow(computer).to receive(:weapon).and_return "Rock"
+    game.add_player!(paul)
+    game.add_player!(computer)
+    game.choose(paul.object_id, "Paper")
+    game.choose(computer.object_id, "Paper")
     expect(game.winner).to eq "Draw"
   end
 

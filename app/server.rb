@@ -67,8 +67,6 @@ class RPS < Sinatra::Base
 
   get '/wait' do
     if game.players.length == 2
-      # game.players.clear
-      # p game.players
       redirect '/end_player_2_game'
       p game
     end
